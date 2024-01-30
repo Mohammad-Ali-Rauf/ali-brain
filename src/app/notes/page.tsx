@@ -4,7 +4,7 @@ import { auth } from "@clerk/nextjs";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "FlowBrain - Notes",
+  title: "AliBrain - Notes",
 };
 
 export default async function NotesPage() {
@@ -15,7 +15,7 @@ export default async function NotesPage() {
   const allNotes = await prisma.note.findMany({ where: { userId } });
 
   return (
-    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 break-all">
       {allNotes.map((note) => (
         <Note note={note} key={note.id} />
       ))}
