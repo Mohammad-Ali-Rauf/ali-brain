@@ -3,6 +3,8 @@ import prisma from "@/lib/db/prisma";
 import { auth } from "@clerk/nextjs";
 import { Metadata } from "next";
 
+import { Note as NoteType } from "@prisma/client";
+
 export const metadata: Metadata = {
   title: "AliBrain - Notes",
 };
@@ -16,7 +18,7 @@ export default async function NotesPage() {
 
   return (
     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 break-all">
-      {allNotes.map((note) => (
+      {allNotes.map((note: NoteType) => (
         <Note note={note} key={note.id} />
       ))}
       {allNotes.length === 0 && (

@@ -5,6 +5,7 @@ import {
   updateNoteSchema,
 } from "@/lib/validation/note";
 import { auth } from "@clerk/nextjs";
+import { Note } from "@prisma/client";
 
 export async function POST(req: Request) {
   try {
@@ -25,7 +26,7 @@ export async function POST(req: Request) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const note = await prisma.$transaction(async (tx) => {
+    const note = await prisma.$transaction(async (tx: Note) => {
       const note = await tx.note.create({
         data: {
           title,
@@ -69,7 +70,7 @@ export async function PUT(req: Request) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const updatedNote = await prisma.$transaction(async (tx) => {
+    const updatedNote = await prisma.$transaction(async (tx: Note) => {
       const updatedNote = await tx.note.update({
         where: { id },
         data: {
@@ -113,7 +114,8 @@ export async function DELETE(req: Request) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await prisma.$transaction(async (tx) => {
+    // @ts-ignore
+    await prisma.$transaction(async (tx: Note) => {
       await tx.note.delete({ where: { id } });
     });
 
